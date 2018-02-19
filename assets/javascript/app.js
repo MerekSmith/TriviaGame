@@ -23,43 +23,77 @@ $(document).ready(function () {
 		clearInterval(intervalTime);
 		intervalTime = setInterval(countDown, 1000);
 	};
-	
-	
+
+
 	function countDown() {
 		questionTime--;
 		$('.timer').text('Time Remaining: ' + questionTime + ' Seconds')
-		
+
 		if (questionTime === 0) {
-			$('.question').text('Out of Time!')
-			$('.answers').empty()
-			$('.contents').append('<h3>The Correct Answer was: ' + correctAnswer + '</h3>')
-			// TODO: display a picture of time's up.
+			$('.question').text('Out of Time!');
+			$('.answers').empty();
+			$('.contents').append('<h3 class="responseAnswer">The Correct Answer was: ' + correctAnswer + '</h3>');
+			$('.contents').append('<div class="responseImage"><img src="assets/images/timesup.gif"></div>')
+			unawnseredCount++;
 			timesUp();
 			revealTimer();
 		}
 	};
-	
-	var intervalTime2;
+
 	// the timer will count down from 5 seconds to reveal the the answer was correct, incorrect, or the user ran out of time then proceed to the next question.
 	function revealTimer() {
 		revealTime = 5;
 		clearInterval(intervalTime);
 		intervalTime = setInterval(revealTimeCountDown, 1000);
 	};
-	
+
 	function revealTimeCountDown() {
 		revealTime--;
-		$('.timer').text('Time Remaining: ' + revealTime + ' Seconds')
+		// $('.timer').text('Time Remaining: ' + revealTime + ' Seconds')
 		if (revealTime === 0) {
 			timesUp();
-			newQuestion();
+			if (correctCount + incorrectCount + unawnseredCount === 8) {
+				$('.question').text("All done, here's how you did!");
+				$('.answers').empty();
+				$('.responseImage').empty();
+				$('.responseAnswer').empty();
+				$('.contents').append('<h4>Correct Answers: ' + correctCount + '</h4>');
+				$('.contents').append('<h4>Incorrect Answers: ' + incorrectCount + '</h4>');
+				$('.contents').append('<h4>Unanswered: ' + unawnseredCount + '</h4>');
+				$('.contents').append('<button class="reset">Start Over?</button>');
+			}
+			else {
+				newQuestion();
+			}
 		}
 	};
 
-	
+
 	// TODO: logic to change to correct or wrong answer response.
 	function answerResponse() {
-
+		$('.answers').on('click', function () {
+			console.log($(this).attr('value'));
+			console.log(correctAnswer);
+			console.log($(this).attr('value') === correctAnswer);
+			// If user selects the correct answer, display "Correct!" and the correct image.
+			if ($(this).attr('value') === correctAnswer) {
+				correctCount++;
+				$('.question').text('Correct!');
+				$('.answers').empty();
+				// TODO: Display an image for being correct.
+				$('.contents').append('<div class="responseImage"><img src="assets/images/correct.gif"></div>')
+				revealTimer();
+			}
+			// If user selects incorrect answer, display "Nope!", what the correct answer was, and the incorrect image.
+			else {
+				incorrectCount++;
+				$('.question').text('Nope!');
+				$('.answers').empty();
+				$('.contents').append('<h3 class="responseAnswer">The Correct Answer was: ' + correctAnswer + '</h3>');
+				$('.contents').append('<div class="responseImage"><img src="assets/images/incorrect.gif"></div>')
+				revealTimer();
+			}
+		});
 	}
 
 
@@ -114,12 +148,12 @@ $(document).ready(function () {
 			var newH2 = $('<h2>');
 			$('.contents').html('<h3 class="timer">Time Remaining: 30 Seconds</h3>');
 			$('.contents').append('<h3 class="question">' + question + '</h3>');
-			$('.contents').append('<h2 class="answers">' + answerChoices[0] + '</h2>');
-			$('.contents').append('<h2 class="answers">' + answerChoices[1] + '</h2>');
-			$('.contents').append('<h2 class="answers">' + answerChoices[2] + '</h2>');
-			$('.contents').append('<h2 class="answers">' + answerChoices[3] + '</h2>');
+			$('.contents').append('<h2 class="answers" value="' + answerChoices[0] + '">' + answerChoices[0] + '</h2>');
+			$('.contents').append('<h2 class="answers" value="' + answerChoices[1] + '">' + answerChoices[1] + '</h2>');
+			$('.contents').append('<h2 class="answers" value="' + answerChoices[2] + '">' + answerChoices[2] + '</h2>');
+			$('.contents').append('<h2 class="answers" value="' + answerChoices[3] + '">' + answerChoices[3] + '</h2>');
 			questionTimer();
-
+			answerResponse();
 
 
 		});
