@@ -120,7 +120,6 @@ $(document).ready(function () {
 		}).then(function (response) {
 			var results = response.results[0];
 			var question = results.question;
-			console.log('ID Tag', results.id);
 			if (usedQuestions.includes(question)) {
 				console.log('if', usedQuestions);
 				newQuestion();
