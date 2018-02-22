@@ -20,6 +20,7 @@ $(document).ready(function () {
 		correctCount = 0;
 		incorrectCount = 0;
 		unawnseredCount = 0;
+		usedQuestions = [];
 		$('.contents').html('<h3>Choose a Difficulty:</h3>');
 		// Difficulty Buttons
 		$('.contents').append('<div class="difficultyChoices"></div>');
