@@ -155,16 +155,23 @@ $(document).ready(function () {
 		});
 	};
 
+// This function is used to remove (decode) the special characters from the correctAnswer key for .
+	function htmlDecode(input){
+		var e = document.createElement('div');
+		e.innerHTML = input;
+		return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+	}
+
 
 	// logic to change to correct or wrong answer response.
 	function answerResponse() {
 		$('.answers').on('click', function () {
 			// TODO: figure out logic to compare answers when a special character is involved. Saved answer looks normal but answer from API system pushed into Array includes the code for the special characters instead.
-			console.log($(this).attr('value'));
-			console.log(correctAnswer);
-			console.log($(this).attr('value') === correctAnswer);
+			console.log(htmlDecode($(this).attr('value')));
+			console.log(htmlDecode(correctAnswer));
+			console.log($(this).attr('value') === htmlDecode(correctAnswer));
 			// If user selects the correct answer, display "Correct!" and the correct image.
-			if ($(this).attr('value') === correctAnswer) {
+			if ($(this).attr('value') === htmlDecode(correctAnswer)) {
 				correctCount++;
 				$('.question').text('Correct!');
 				$('.category').empty();
@@ -192,7 +199,7 @@ $(document).ready(function () {
 	var intervalTime;
 	// the timer will count down from 30 seconds for the user to select an answer.
 	function questionTimer() {
-		questionTime = 30;
+		questionTime = 10;
 		clearInterval(intervalTime);
 		intervalTime = setInterval(countDown, 1000);
 	};
@@ -219,7 +226,7 @@ $(document).ready(function () {
 
 	// the timer will count down from 5 seconds to reveal the the answer was correct, incorrect, or the user ran out of time then proceed to the next question.
 	function revealTimer() {
-		revealTime = 4;
+		revealTime = 1;
 		clearInterval(intervalTime);
 		intervalTime = setInterval(revealTimeCountDown, 1000);
 	};
