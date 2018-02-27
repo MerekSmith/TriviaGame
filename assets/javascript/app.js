@@ -199,7 +199,7 @@ $(document).ready(function () {
 	var intervalTime;
 	// the timer will count down from 30 seconds for the user to select an answer.
 	function questionTimer() {
-		questionTime = 10;
+		questionTime = 30;
 		clearInterval(intervalTime);
 		intervalTime = setInterval(countDown, 1000);
 	};
@@ -226,7 +226,7 @@ $(document).ready(function () {
 
 	// the timer will count down from 5 seconds to reveal the the answer was correct, incorrect, or the user ran out of time then proceed to the next question.
 	function revealTimer() {
-		revealTime = 1;
+		revealTime = 4;
 		clearInterval(intervalTime);
 		intervalTime = setInterval(revealTimeCountDown, 1000);
 	};
